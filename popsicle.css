@@ -3,11 +3,15 @@
 }
 
 .buttons {
-  text-align: center;
-  border: 2px solid;
   background-color: grey;
-  border-radius: 15px;
-  float: left;
+  border-radius: 12px;
+  padding: 12px 24px;
+  transition-duration: 0.4s;
+}
+
+.buttons:hover {
+  background-color:lightgray;
+  color: white;
 }
 
 #mouseLabel {
