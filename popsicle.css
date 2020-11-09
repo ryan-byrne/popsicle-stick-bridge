@@ -4,6 +4,7 @@
 
 .buttons {
   background-color: grey;
+  color: white;
   border-radius: 12px;
   padding: 12px 24px;
   transition-duration: 0.4s;
@@ -11,7 +12,8 @@
 
 .buttons:hover {
   background-color:lightgray;
-  color: white;
+  color: black;
+  cursor: pointer;
 }
 
 #mouseLabel {
