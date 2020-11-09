@@ -140,7 +140,7 @@ var testArea = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.drawGrid();
     document.getElementById('addStick').onclick = function(){
-      truss.add(100,700,30);
+      truss.add(truss.sticks[truss.selected].x+10,  truss.sticks[truss.selected].y+10,0);
     };
     document.getElementById('clearSticks').onclick = function(){
       truss.clear();
