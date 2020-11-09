@@ -1,0 +1,18 @@
+* {
+  font-family: georgia serif;
+}
+body {
+  padding: 0px;
+}
+
+.button {
+  float: left;
+}
+
+#mouseLabel {
+  position: absolute;
+  background-color: lightgray;
+  border-radius: 10px;
+  text-align: center;
+
+}

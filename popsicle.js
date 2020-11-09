@@ -1,0 +1,249 @@
+function updateTestArea(){
+  testArea.clear();
+  truss.render();
+}
+
+var events = {
+  dragging:false,
+  rotating:false,
+  label: document.getElementById("mouseLabel"),
+  keyDown: function(e){
+    switch (e.code){
+      case "Delete":
+        truss.remove(truss.selected);
+        break;
+      case "KeyQ":
+        truss.sticks[truss.selected].rad -= 10/180*Math.PI;
+        break;
+      case "KeyE":
+        truss.sticks[truss.selected].rad += 10/180*Math.PI;
+        break;
+      case "KeyW":
+        truss.sticks[truss.selected].y -= 5;
+        break;
+      case "KeyS":
+        truss.sticks[truss.selected].y += 5;
+        break;
+      case "KeyA":
+        truss.sticks[truss.selected].x -= 5;
+        break;
+      case "KeyD":
+        truss.sticks[truss.selected].x += 5;
+        break;
+    }
+  },
+  keyUp: function(e){
+
+  },
+  mouseWheel: function(e){
+    //console.log(e);
+  },
+  mouseDown: function(e){
+    // Check if a stick has been selected
+    for ( var i in truss.sticks ){
+      var stick = truss.sticks[i];
+      var coor = truss.rotate(-stick.rad, [{x:e.layerX-stick.x,y:e.layerY-stick.y}])[0];
+      if ((coor.x > -50 && coor.x < 50)&&(coor.y > -5 && coor.y < 5)){
+        truss.selected = i;
+        break;
+      }
+
+
+    }
+    this.dragging = true;
+  },
+  mouseMove: function(e){
+    if (this.dragging){
+      this.label.innerText = "x = "+Math.ceil(e.layerX / 5) * 5+", y = "+Math.ceil(e.layerY / 5) * 5;
+      this.label.style.left = e.layerX +50;
+      this.label.style.top = e.layerY-50;
+      this.label.style.padding = "5px";
+      this.label.style.border = "2px outset black";
+      truss.move(e.layerX,e.layerY);
+    }
+    else{
+
+    }
+  },
+  mouseUp: function(e){
+    this.dragging = false;
+    this.label.innerText = "";
+    this.label.style.padding = "0px";
+    this.label.style.border = "";
+
+  }
+}
+
+var testArea = {
+  canvas: document.getElementById('canvas'),
+  ctx: this.canvas.getContext('2d'),
+  drawGrid:function(){
+    var ctx = this.canvas.getContext('2d');
+    ctx.lineWidth = 2;
+    // Draw vertical lines
+    ctx.beginPath();
+    for (var x = 0; x < canvas.width; x+=10){
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+    }
+    ctx.strokeStyle = 'lightcyan';
+    ctx.stroke();
+    // Draw horizontal lines
+    ctx.beginPath();
+    for (var y = 0; y < canvas.width; y+=10){
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+    }
+    ctx.strokeStyle = 'lightcyan';
+    ctx.stroke();
+    // Draw Y axis
+    ctx.beginPath();
+    ctx.moveTo(50,700);
+    ctx.lineTo(50, 650);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("y", 45,640);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+    // Draw X axis
+    ctx.beginPath();
+    ctx.moveTo(50,700);
+    ctx.lineTo(100, 700);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "blue";
+    ctx.fillText("x", 110,705);
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
+    // Draw table tops
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.fillStyle = "DarkGoldenRod";
+    ctx.fillRect(0,550,350,35);
+    ctx.fillRect(850,550,350,35);
+    ctx.rect(0,550,350,35);
+    ctx.rect(850,550,350,35);
+    ctx.stroke();
+    // Draw table legs
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.fillStyle = "gray";
+    ctx.fillRect(200,585,20,200);
+    ctx.rect(200,585,20,200);
+    ctx.fillRect(1000,585,20,200);
+    ctx.rect(1000,585,20,200);
+    ctx.stroke();
+  },
+  start: function(){
+    this.canvas.width = 1200;
+    this.canvas.height = 750;
+    this.interval = setInterval(updateTestArea, 20);
+    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    this.drawGrid();
+    document.getElementById('addStick').onclick = function(){
+      truss.add(100,700,30);
+    };
+    document.getElementById('clearSticks').onclick = function(){
+      truss.clear();
+    };
+    document.getElementById('canvas').addEventListener('mousedown',function(e){
+      events.mouseDown(e);
+    });
+    document.getElementById('canvas').addEventListener('mousemove',function(e){
+      events.mouseMove(e);
+    });
+    document.getElementById('canvas').addEventListener('mouseup',function(e){
+      events.mouseUp(e);
+    });
+    document.getElementById('canvas').addEventListener('wheel',function(e){
+      events.mouseWheel(e);
+    });
+    document.getElementById('canvas').addEventListener('keydown',function(e){
+      events.keyDown(e);
+    });
+
+  },
+  clear: function(){
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.drawGrid();
+  }
+}
+
+var truss = {
+  selected:0,
+  sticks: [],
+  sticksLeft: 50,
+  points: [
+        {x:50,y:5},
+        {x:-50,y:5},
+        {x:-50,y:0},
+        {x:50,y:-5},
+        {x:50,y:0}
+  ],
+  move: function(x,y) {
+    this.sticks[this.selected].x = Math.ceil(x / 5) * 5;
+    this.sticks[this.selected].y = Math.ceil(y / 5) * 5;
+  },
+  add: function (x, y, deg){
+    this.sticksLeft--;
+    this.sticks.push({
+      x:x,
+      y:y,
+      rad:deg * Math.PI / 180
+    });
+  },
+  remove: function (i){
+    this.sticksLeft++;
+    this.sticks.splice(i,1);
+  },
+  render: function () {
+    //console.table(this.sticks);
+    document.getElementById("stickCount").innerHTML = this.sticksLeft+" Left";
+    for (var i in this.sticks){
+      this.draw(i);
+      this.crossover(i);
+    }
+  },
+  crossover: function (){
+
+  },
+  clear: function () {
+    this.sticks = [];
+    this.sticksLeft = 50;
+  },
+  draw: function (i) {
+    var stick = this.sticks[i];
+    var points = this.rotate(stick.rad);
+    var ctx = testArea.ctx;
+    // Convert aginle into radians and store arc angles
+    var ang1 = Math.PI/2+stick.rad;
+    var ang2 = Math.PI*3/2+stick.rad;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x + stick.x, points[0].y + stick.y);
+    ctx.lineTo(points[1].x + stick.x, points[1].y + stick.y);
+    ctx.arc(points[2].x + stick.x, points[2].y + stick.y, 5, ang1, ang2);
+    ctx.lineTo(points[3].x + stick.x, points[3].y + stick.y);
+    ctx.arc(points[4].x + stick.x, points[4].y + stick.y, 5, ang2, ang1);
+    ctx.strokeStyle = (i == this.selected) ? 'red' : 'black';
+    ctx.fillStyle = 'bisque';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+  },
+  rotate:function(rad, points=this.points){
+    // Create array for rotation
+    var rotatedPoints = [];
+    for (var i in points){
+      var x = points[i].x;
+      var y = points[i].y;
+      rotatedPoints.push({
+        x:x*Math.cos(rad)-y*Math.sin(rad),
+        y:x*Math.sin(rad)+y*Math.cos(rad)
+      });
+    }
+    return rotatedPoints;
+  }
+}
+
+testArea.start();
