@@ -1,6 +1,5 @@
 * {
   font-family: georgia serif;
-  padding: 40px;
 }
 
 .button {
@@ -10,6 +9,6 @@
 #mouseLabel {
   position: absolute;
   background-color: lightgray;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
 }
