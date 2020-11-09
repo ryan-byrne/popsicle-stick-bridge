@@ -198,7 +198,7 @@ var truss = {
   },
   render: function () {
     //console.table(this.sticks);
-    document.getElementById("stickCount").innerHTML = this.sticksLeft+" Left";
+    document.getElementById("stickCount").innerHTML = this.sticksLeft+" Sticks Left";
     for (var i in this.sticks){
       this.draw(i);
       this.crossover(i);
