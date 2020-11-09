@@ -6,7 +6,7 @@ body {
 }
 
 .button {
-  float: left;
+  float: right;
 }
 
 #mouseLabel {
@@ -14,5 +14,4 @@ body {
   background-color: lightgray;
   border-radius: 10px;
   text-align: center;
-
 }
