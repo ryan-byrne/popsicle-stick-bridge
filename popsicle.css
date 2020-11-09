@@ -3,9 +3,11 @@
 }
 
 .buttons {
-  font-size: 30px;
   text-align: center;
-  color: red;
+  border: 2px solid;
+  background-color: grey;
+  border-radius: 15px;
+  float: left;
 }
 
 #mouseLabel {
