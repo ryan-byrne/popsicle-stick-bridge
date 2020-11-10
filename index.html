@@ -2,9 +2,21 @@
   <head>
     <title>Popsicle Truss</title>
     <link rel="stylesheet" href="popsicle.css">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
   </head>
   <body>
     <canvas tabindex='1' id="canvas"></canvas>
+    <div class="fileMgmt">
+      <div class="buttons" id="saveBridge">
+        Save Bridge
+      </div>
+      <div class="buttons" id="loadBridge">
+        Load Bridge
+      </div>
+      <div class="buttons" id="takePicture">
+        Take Picture
+      </div>
+    </div>
     <div id="helpButton">Show Guide</div>
       <div id="guide">
         <div class="category">
@@ -32,7 +44,15 @@
             Send to Front ( CTRL + ] ) <br>
           </div>
         </div>
+        <div class="category">
+          Sticks
+          <div class="instruction">
+            Add (+)<br>
+            Remove (-) <br>
+          </div>
+        </div>
       </div>
+    </div>
     <div id="mouseLabel"></div>
     <div id="stickMgmt">
       <div class="buttons" id="clearSticks">Clear</div>

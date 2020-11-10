@@ -46,6 +46,18 @@ var events = {
       case "KeyD":
         truss.sticks[truss.selected].x += 5;
         break;
+      case "Equal":
+        var stick = truss.sticks[truss.selected];
+        truss.add(stick.x+15, stick.y-15, 0)
+        break;
+      case "Minus":
+        if (e.ctrlKey){
+          truss.clear();
+        }
+        else {
+          truss.remove(this.selected);
+        }
+        break;
     }
   },
   keyUp: function(e){
@@ -150,13 +162,19 @@ var testArea = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.drawGrid();
     document.getElementById('addStick').onclick = function(){
-      truss.add(400,390,0);
+      truss.add(400,350,0);
     };
     document.getElementById('clearSticks').onclick = function(){
       truss.clear();
     };
     document.getElementById('helpButton').onclick = function(){
       testArea.toggleGuide();
+    };
+    document.getElementById('loadBridge').onclick = function(){
+      truss.load();
+    };
+    document.getElementById('saveBridge').onclick = function(){
+      truss.save();
     };
     document.getElementById('canvas').addEventListener('mousedown',function(e){
       events.mouseDown(e);
@@ -287,6 +305,32 @@ var truss = {
       });
     }
     return rotatedPoints;
+  },
+  save:function(){
+    var data = JSON.stringify(this.sticks);
+    var blob = new Blob( [data] , {
+      type:'application/octet-stream'
+    });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement( 'a' );
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'bridge.json');
+    var event = document.createEvent("MouseEvents");
+    event.initMouseEvent( 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    link.dispatchEvent( event );
+  },
+  load: function(){
+    var load = document.createElement( 'input' );
+    load.addEventListener('change', function(){
+      var fname = load.files[0].name;
+      var data = $.getJSON(fname, function(){
+        console.log(data);
+      });
+    });
+    load.setAttribute("type", "file");
+    load.setAttribute("accept", ".json")
+    load.style.display = "none";
+    load.click();
   }
 }
 
