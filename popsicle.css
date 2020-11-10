@@ -29,12 +29,12 @@
   background-color: DarkCyan;
   color: white;
   position: absolute;
-  left: 25px;
-  top: 25px;
-  font-size: 20px;
+  left: 5px;
+  top: 5px;
+  font-size: 16px;
   font-style: bold;
   border: 1px solid;
-  padding: 15px;
+  padding: 10px;
   border-radius: 20px;
   transition-duration: 0.4s;
 

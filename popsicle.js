@@ -101,47 +101,40 @@ var testArea = {
     ctx.beginPath();
     ctx.strokeStyle = 'black';
     ctx.fillStyle = "DarkGoldenRod";
-    ctx.fillRect(0,550,350,35);
-    ctx.fillRect(850,550,350,35);
-    ctx.rect(0,550,350,35);
-    ctx.rect(850,550,350,35);
-    ctx.stroke();
-    // Draw table legs
-    ctx.beginPath();
-    ctx.strokeStyle = 'black';
-    ctx.fillStyle = "gray";
-    ctx.fillRect(200,585,20,200);
-    ctx.rect(200,585,20,200);
-    ctx.fillRect(1000,585,20,200);
-    ctx.rect(1000,585,20,200);
+    var tableBot = this.canvas.height-120;
+    var tableLen = (this.canvas.width - 500)/2;
+    ctx.fillRect(0,tableBot,tableLen,35);
+    ctx.fillRect(this.canvas.width-tableLen,tableBot,this.canvas.width,35);
+    ctx.rect(0,tableBot,tableLen,35);
+    ctx.rect(this.canvas.width-tableLen,tableBot,tableLen,35);
     ctx.stroke();
     // Draw Y axis
     ctx.beginPath();
-    ctx.moveTo(50,this.canvas.height-120);
-    ctx.lineTo(50, this.canvas.height-180);
+    ctx.moveTo(10,this.canvas.height-10);
+    ctx.lineTo(10, this.canvas.height-60);
     ctx.font = "20px Arial";
     ctx.fillStyle = "red";
-    ctx.fillText("y", 45, this.canvas.height-200);
+    ctx.fillText("y", 5, this.canvas.height-68);
     ctx.strokeStyle = 'red';
     ctx.stroke();
     // Draw X axis
     ctx.beginPath();
-    ctx.moveTo(50,this.canvas.height-120);
-    ctx.lineTo(110, this.canvas.height-120);
+    ctx.moveTo(10,this.canvas.height-10);
+    ctx.lineTo(60, this.canvas.height-10);
     ctx.font = "20px Arial";
     ctx.fillStyle = "blue";
-    ctx.fillText("x", 120,this.canvas.height-115);
+    ctx.fillText("x", 68,this.canvas.height-5);
     ctx.strokeStyle = 'blue';
     ctx.stroke();
   },
   start: function(){
-    this.canvas.width = 1200;
-    this.canvas.height = 650;
+    this.canvas.width = 800;
+    this.canvas.height = 400;
     this.interval = setInterval(updateTestArea, 20);
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.drawGrid();
     document.getElementById('addStick').onclick = function(){
-      truss.add(600,625,0);
+      truss.add(this.canvas.width/2,this.canvas.height=10,0);
     };
     document.getElementById('clearSticks').onclick = function(){
       truss.clear();
@@ -207,7 +200,7 @@ var truss = {
     }
   },
   crossover: function (i){
-    
+
     var coor = truss.rotate(-stick.rad, [{x:e.layerX-stick.x,y:e.layerY-stick.y}])[0];
     for (var j in this.sticks){
 
