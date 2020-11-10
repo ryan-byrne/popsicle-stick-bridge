@@ -79,6 +79,7 @@ var testArea = {
   ctx: this.canvas.getContext('2d'),
   drawGrid:function(){
     var ctx = this.canvas.getContext('2d');
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2;
     // Draw vertical lines
     ctx.beginPath();
@@ -90,29 +91,11 @@ var testArea = {
     ctx.stroke();
     // Draw horizontal lines
     ctx.beginPath();
-    for (var y = 0; y < canvas.width; y+=10){
+    for (var y = 0; y < this.canvas.width; y+=10){
       ctx.moveTo(0, y);
-      ctx.lineTo(canvas.width, y);
+      ctx.lineTo(this.canvas.width, y);
     }
     ctx.strokeStyle = 'lightcyan';
-    ctx.stroke();
-    // Draw Y axis
-    ctx.beginPath();
-    ctx.moveTo(50,700);
-    ctx.lineTo(50, 650);
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("y", 45,640);
-    ctx.strokeStyle = 'red';
-    ctx.stroke();
-    // Draw X axis
-    ctx.beginPath();
-    ctx.moveTo(50,700);
-    ctx.lineTo(100, 700);
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "blue";
-    ctx.fillText("x", 110,705);
-    ctx.strokeStyle = 'blue';
     ctx.stroke();
     // Draw table tops
     ctx.beginPath();
@@ -132,15 +115,33 @@ var testArea = {
     ctx.fillRect(1000,585,20,200);
     ctx.rect(1000,585,20,200);
     ctx.stroke();
+    // Draw Y axis
+    ctx.beginPath();
+    ctx.moveTo(50,this.canvas.height-120);
+    ctx.lineTo(50, this.canvas.height-180);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("y", 45, this.canvas.height-200);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+    // Draw X axis
+    ctx.beginPath();
+    ctx.moveTo(50,this.canvas.height-120);
+    ctx.lineTo(110, this.canvas.height-120);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "blue";
+    ctx.fillText("x", 120,this.canvas.height-115);
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
   },
   start: function(){
     this.canvas.width = 1200;
-    this.canvas.height = 750;
+    this.canvas.height = 650;
     this.interval = setInterval(updateTestArea, 20);
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.drawGrid();
     document.getElementById('addStick').onclick = function(){
-      truss.add(500,100,0);
+      truss.add(600,625,0);
     };
     document.getElementById('clearSticks').onclick = function(){
       truss.clear();
@@ -185,6 +186,7 @@ var truss = {
     this.sticks[this.selected].y = Math.ceil(y / 5) * 5;
   },
   add: function (x, y, deg){
+    this.selected = this.sticks.length
     this.sticksLeft--;
     this.sticks.push({
       x:x,
@@ -204,8 +206,12 @@ var truss = {
       this.crossover(i);
     }
   },
-  crossover: function (){
+  crossover: function (i){
+    
+    var coor = truss.rotate(-stick.rad, [{x:e.layerX-stick.x,y:e.layerY-stick.y}])[0];
+    for (var j in this.sticks){
 
+    }
   },
   clear: function () {
     this.sticks = [];

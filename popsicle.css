@@ -2,19 +2,57 @@
   font-family: georgia serif;
 }
 
+#stickMgmt {
+  margin-left: 405px;
+  height: 50px;
+  width: 100%;
+}
+
+#stickCount {
+  padding: 12px 24px;
+  float:left;
+}
+
 .buttons {
-  background-color: grey;
-  color: white;
+  width: 75px;
+  text-align: center;
+  color: black;
+  background-color:WhiteSmoke;
+  border: 1px solid blue;
   border-radius: 12px;
   padding: 12px 24px;
   transition-duration: 0.4s;
+  float:left;
 }
 
-.buttons:hover {
-  background-color:lightgray;
+#helpButton {
+  background-color: DarkCyan;
+  color: white;
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  font-size: 20px;
+  font-style: bold;
+  border: 1px solid;
+  padding: 15px;
+  border-radius: 20px;
+  transition-duration: 0.4s;
+
+}
+
+#helpButton:hover {
+  background-color:Cyan;
   color: black;
   cursor: pointer;
 }
+
+.buttons:hover {
+  background-color:black;
+  color: white;
+  cursor: pointer;
+}
+
+
 
 #mouseLabel {
   position: absolute;
