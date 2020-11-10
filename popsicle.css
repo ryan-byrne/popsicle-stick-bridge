@@ -39,7 +39,7 @@
   background-color:WhiteSmoke;
   border: 1px solid blue;
   border-radius: 12px;
-  padding: 12px 24px;
+  padding: 8px 24px;
   transition-duration: 0.4s;
   float:left;
 }
@@ -48,8 +48,8 @@
   background-color: DarkCyan;
   color: white;
   position: absolute;
-  left: 5px;
-  top: 5px;
+  left: 20px;
+  top: 20px;
   font-size: 16px;
   padding: 10px;
   border-radius: 20px;
@@ -69,7 +69,6 @@
   color: white;
   cursor: pointer;
 }
-
 
 
 #mouseLabel {
