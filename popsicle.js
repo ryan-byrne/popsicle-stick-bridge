@@ -107,6 +107,7 @@ var testArea = {
   ctx: this.canvas.getContext('2d'),
   drawGrid:function(){
     var ctx = this.canvas.getContext('2d');
+    ctx.fillStyle = "white"
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2;
     // Draw vertical lines
@@ -175,6 +176,9 @@ var testArea = {
     };
     document.getElementById('saveBridge').onclick = function(){
       truss.save();
+    };
+    document.getElementById('takePicture').onclick = function(){
+      truss.takePicture();
     };
     document.getElementById('canvas').addEventListener('mousedown',function(e){
       events.mouseDown(e);
@@ -322,15 +326,30 @@ var truss = {
   load: function(){
     var load = document.createElement( 'input' );
     load.addEventListener('change', function(){
-      var fname = load.files[0].name;
-      var data = $.getJSON(fname, function(){
-        console.log(data);
-      });
+      var file = load.files[0];
+      if (file.name.match(/\.(txt|json)$/)) {
+              var reader = new FileReader();
+
+              reader.onload = function() {
+                  var sticks = JSON.parse(reader.result);
+                  truss.sticks = sticks;
+              };
+
+              reader.readAsText(file);
+          } else {
+              alert("File not supported, .txt or .json files only");
+          }
     });
     load.setAttribute("type", "file");
     load.setAttribute("accept", ".json")
     load.style.display = "none";
     load.click();
+  },
+  takePicture: function(){
+    var link = document.createElement('a');
+    link.setAttribute('download', 'bridge.png');
+    link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    link.click();
   }
 }
 
