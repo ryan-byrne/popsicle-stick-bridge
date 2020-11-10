@@ -9,6 +9,22 @@ var events = {
   label: document.getElementById("mouseLabel"),
   keyDown: function(e){
     switch (e.code){
+      case "BracketLeft":
+        if (e.ctrlKey){
+          truss.reorder(truss.sticks.length-1);
+        }
+        else {
+          truss.reorder(truss.selected+1);
+        }
+        break;
+      case "BracketRight":
+        if (e.ctrlKey){
+          truss.reorder(0);
+        }
+        else {
+          truss.reorder(truss.selected-1);
+        }
+        break;
       case "Delete":
         truss.remove(truss.selected);
         break;
@@ -134,10 +150,13 @@ var testArea = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.drawGrid();
     document.getElementById('addStick').onclick = function(){
-      truss.add(this.canvas.width/2,this.canvas.height=10,0);
+      truss.add(400,390,0);
     };
     document.getElementById('clearSticks').onclick = function(){
       truss.clear();
+    };
+    document.getElementById('helpButton').onclick = function(){
+      testArea.toggleGuide();
     };
     document.getElementById('canvas').addEventListener('mousedown',function(e){
       events.mouseDown(e);
@@ -155,6 +174,17 @@ var testArea = {
       events.keyDown(e);
     });
 
+  },
+  toggleGuide: function(){
+
+    if ( document.getElementById('guide').style.display === "block"){
+      document.getElementById('helpButton').innerHTML = "Show Guide";
+      document.getElementById('guide').style.display = "none";
+    }
+    else {
+      document.getElementById('helpButton').innerHTML = "Hide Guide";
+      document.getElementById('guide').style.display = "block";
+    }
   },
   clear: function(){
     this.ctx.fillStyle = 'white';
@@ -200,11 +230,26 @@ var truss = {
     }
   },
   crossover: function (i){
+    var stick = truss.sticks[i];
 
-    var coor = truss.rotate(-stick.rad, [{x:e.layerX-stick.x,y:e.layerY-stick.y}])[0];
     for (var j in this.sticks){
 
     }
+  },
+  reorder: function(to){
+    if (this.sticks.length == 0){
+      return;
+    }
+    else if (to < 0){
+      to = 0;
+    }
+    else if (to > this.sticks.length-1){
+      to = this.sticks.length-1;
+    }
+    var stick = this.sticks[this.selected];
+    this.sticks.splice(this.selected,1);
+    this.sticks.splice(to, 0, stick);
+    this.selected = to;
   },
   clear: function () {
     this.sticks = [];

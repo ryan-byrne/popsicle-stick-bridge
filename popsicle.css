@@ -2,8 +2,27 @@
   font-family: georgia serif;
 }
 
+#guide {
+  position: absolute;
+  left: 20px;
+  top: 50px;
+  display: none;
+}
+
+.category {
+  float: left;
+  padding: 15px;
+  font-size: 30px;
+  text-align: right;
+}
+
+.instruction {
+  font-size: 14px;
+}
+
+
 #stickMgmt {
-  margin-left: 405px;
+  margin-left: 205px;
   height: 50px;
   width: 100%;
 }
@@ -32,8 +51,6 @@
   left: 5px;
   top: 5px;
   font-size: 16px;
-  font-style: bold;
-  border: 1px solid;
   padding: 10px;
   border-radius: 20px;
   transition-duration: 0.4s;
@@ -44,6 +61,7 @@
   background-color:Cyan;
   color: black;
   cursor: pointer;
+  font-style: bold;
 }
 
 .buttons:hover {
